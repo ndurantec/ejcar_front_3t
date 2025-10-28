@@ -23,18 +23,20 @@
 
                 <div class="form-group">
                     <div class="input-group">
-                        <label for="chassi" class="form-label"><i class="fas fa-barcode"></i> Chassi:</label>
+                        <label for="veiculo" class="form-label"><i class="fas fa-car"></i> Veículo:</label>
                         <div class="input-icon">
-                            <i class="fas fa-barcode"></i>
-                            <input type="text" class="form-control" id="chassi" placeholder="Digite o número do chassi" name="chassi">
+                            <i class="fas fa-car"></i>
+                            <select class="form-control" id="veiculo" name="veiculo">
+                                <option value="">Selecione o veículo</option>
+                            </select>
                         </div>
                     </div>
                    
                     <div class="input-group">
-                        <label for="placa" class="form-label"><i class="fas fa-car"></i> Placa:</label>
+                        <label for="codigoOrcamento" class="form-label"><i class="fas fa-barcode"></i> Codigo de Orçamento:</label>
                         <div class="input-icon">
-                            <i class="fas fa-car"></i>
-                            <input type="text" class="form-control" id="placa" placeholder="Digite a placa do veículo" name="placa">
+                            <i class="fas fa-barcode"></i>
+                            <input type="text" class="form-control" id="placa" placeholder="Digite o codigo de orçamento do veículo" name="codigoOrcamento">
                         </div>
                     </div>
                 </div>
@@ -60,8 +62,17 @@
                     </div>
                 </div>
                
-                <button type="button" class="btn btn-submit" onclick="finalizar()">
+                <button type="button" class="btn btn-submit" onclick="finalizarOrcamento()">
                     <i class="fas fa-check-circle"></i> Finalizar Orçamento
+                </button>
+                <button type="button" class="btn btn-submit" onclick="tabelaOrcamento()">
+                    <i class="fas fa-check-circle"></i> Tabela Orçamento
+                </button>
+                <button type="button" class="btn btn-submit" onclick="atualizarOrcamento()">
+                    <i class="fas fa-check-circle"></i> Atualizar Orçamento
+                </button>
+                <button type="button" class="btn btn-submit" onclick="deletarOrcamento()">
+                    <i class="fas fa-check-circle"></i> Deletar Orçamento
                 </button>
             </form>
         </div>
