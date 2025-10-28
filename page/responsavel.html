@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Cadastro do Responsável do Veículo</title>
+        
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="/asset/style/responsavel.css">
+</head>
+<body>
+    <div class="container">
+        <form>
+            <h1>Cadastro do Responsável do Veículo</h1>
+            <hr>
+           
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <div class="input-icon">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="nome" id="name" placeholder="Digite o Nome">
+                
+            </div>
+           
+            <div class="form-group">
+                <label for="telefone">Telefone:</label>
+                <div class="input-icon">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" name="telefone" id="telefone" placeholder="Digite o Telefone">
+                </div>
+            </div>
+           
+            <div class="form-group">
+                <label for="endereco">Endereço:</label>
+                <div class="input-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" name="endereco" id="endereco" placeholder="Digite o Endereço">
+                </div>
+            </div>
+           
+            <div class="form-group">
+                <label for="cep">CEP:</label>
+                <div class="input-icon">
+                    <i class="fas fa-map-pin"></i>
+                    <input type="text" name="cep" id="cep" placeholder="Digite o CEP">
+                </div>
+            </div>
+
+            <button type="button" class="button" onclick="cadastrar()" id="botao">
+                <i class="fas fa-user-plus"></i> Cadastrar
+            </button>
+
+            <button type="button" class="button" onclick="salvarResponsavel()" id="botao">salvar</button>
+            <button type="button" class="button" onclick="alterarResponsavel()" id="botao">alterar</button>
+            <button type="button" class="button" onclick="consultarResponsavel()" id="botao">consultar</button>
+            <button type="button" class="button" onclick="deletarResponsavel()" id="botao">deletar</button>
+           
+           
+        </form>
+    </div>
+    <script src="/script/reponsavel.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Oficina Mecânica</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/asset/style/login.css">
+</head>
+<body>
+    <body>
+    <div class="login-container">
+        <h1>Login</h1>
+        <hr>
+        
+        <div class="input-group">
+            <label for="usuario">Usuário:</label>
+            <input type="text" id="usuario" placeholder="Digite seu nome de usuário">
+            <div id="erro-usuario" class="erro"></div>
+        </div>
+        
+        <div class="input-group">
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" placeholder="Digite sua senha">
+             <div id="erro-senha" class="erro"></div>
+        </div>
+        
+        <div class="input-group">
+            <label for="email">Email:</label>
+            <div class="email-input-container">
+                <i class="fas fa-envelope email-icon"></i>
+                <input type="email" id="email" class="email-input" placeholder="you@example.com">
+                 <div id="erro-email" class="erro"></div>
+            </div>
+        </div>
+        
+        <p class="links">Esqueci minha senha</p>
+        
+        <button class="btn btn-primary" id="Entrar" onclick="logar()" type="button">
+            <i class="fas fa-user-cog"></i> Entrar
+        </button>
+        
+        <p class="links">Não é cadastrado ainda?</p>
+        
+        <a class="btn btn-secondary" href="criarconta.html" id="criarconta" onclick="criarconta()">
+            <i class="fas fa-user-plus"></i> Criar Conta
+        </a>
+
+        </div>
+<script src="/script/login.js"></script>
+</body>

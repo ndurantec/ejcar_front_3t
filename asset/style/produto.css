@@ -1,0 +1,224 @@
+:root {
+    --primary-red: rgb(183, 28, 28);
+    --light-red-shadow: rgba(183, 28, 28, 0.3);
+    --light-red-focus: rgba(183, 28, 28, 0.2);
+}
+
+ :root {
+            --primary-red: rgb(183, 28, 28); /* NOVO VERMELHO */
+            --light-red-shadow: rgba(183, 28, 28, 0.3); /* Sombra para o botão */
+            --light-red-focus: rgba(183, 28, 28, 0.2); /* Foco para o input */
+        }
+       
+        /* Estilos Gerais */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background:#2c2c2c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
+        }
+
+/* --- GERAL --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    border-top: 5px solid var(--primary-red);
+}
+
+/* --- TÍTULO --- */
+.header-produto {
+    color: var(--primary-red);
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.header-produto::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+        to right,
+        transparent 0%,
+        var(--primary-red) 25%,
+        var(--primary-red) 75%,
+        transparent 100%
+    );
+}
+
+/* --- CAMPOS --- */
+.form-group {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.form-group:last-of-type {
+    border-bottom: none;
+}
+
+.form-group label {
+    display: block;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+/* --- INPUTS PADRÃO --- */
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.currency-symbol {
+    position: absolute;
+    left: 15px;
+    color: #666;
+    font-weight: 600;
+    z-index: 2;
+}
+
+/* === O TAMANHO PADRÃO DAS CAIXAS === */
+.input-value {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px 16px 10px 16px; /* mesmo padding em todos */
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+    height: 45px; /* altura fixa — igual em todas */
+}
+
+/* input com símbolo R$ */
+.input-valor {
+    padding-left: 40px;
+}
+
+/* --- EFEITOS DE FOCO E HOVER --- */
+.input-value:focus {
+    outline: none;
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px var(--light-red-focus);
+    background-color: #fff;
+}
+
+.input-value:hover {
+    border-color: var(--primary-red);
+    box-shadow: 0 4px 15px var(--light-red-shadow);
+}
+
+/* --- TEXTAREA (somente descrição continua grande) --- */
+textarea {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+}
+
+textarea:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px var(--light-red-focus);
+    background-color: #fff;
+}
+
+/* --- BOTÃO --- */
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+}
+
+button[type="submit"] {
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red) 100%);
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px var(--light-red-shadow);
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    width: 200px;
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px var(--light-red-shadow);
+}
+
+button[type="submit"]:active {
+    transform: translateY(1px);
+}
+
+button[type="submit"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+button[type="submit"]:hover::before {
+    left: 100%;
+}
+
+/* --- RESPONSIVO --- */
+@media (max-width: 768px) {
+    .container {
+        padding: 25px 20px;
+    }
+
+    .header-produto {
+        font-size: 26px;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 14px;
+    }
+}
