@@ -158,7 +158,7 @@ function limparErros() {
 }
 
 function validarFormulario() {
-    limparErros();
+    //limparErros();
 
     // Captura dos valores do formulário
     let nome = document.getElementById("nome").value;
@@ -214,7 +214,6 @@ function concluirVistoria() {
     })
 
 
-    
     .then(response => {
     if (!response.ok) {
       throw new Error("Erro na resposta da API");
@@ -227,6 +226,7 @@ function concluirVistoria() {
 
     localStorage.setItem('id_criarConta', criarConta_id);
     //let valorDaChaveDoProfessor = localStorage.getItem('id_professor');
+      alert("Cadastrado com Sucesso");
 
   }).catch(error => console.error('Erro!:', error));
 
