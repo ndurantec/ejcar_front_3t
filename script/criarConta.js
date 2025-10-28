@@ -84,13 +84,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
                    // Botão limpar//
     clearBtn.addEventListener('click', clearSignature);
-    
     window.addEventListener('resize', initCanvas);
     
-    const concluirBtn = document.getElementById('concluirBtn');
-    concluirBtn.addEventListener('click', function() {
-        alert('Conta registrada com sucesso!');
-    });
+    // const concluirBtn = document.getElementById('concluirBtn');
+    // concluirBtn.addEventListener('click', function() {
+    //     alert('Conta registrada com sucesso!');
+    // });
 }); 
 
 //function criarconta() {
@@ -114,17 +113,17 @@ document.addEventListener('DOMContentLoaded', function() {
 //}
 
 
-function concluir() {
-    fetch('http://127.0.0.1:8080/responsaveis', {
+// function concluir() {
+//     fetch('http://127.0.0.1:8080/responsaveis', {
        
-    }).then(response => {
+//     }).then(response => {
            
-    }).then(data => {
+//     }).then(data => {
        
-    }).catch(error => {
+//     }).catch(error => {
        
-    });
-}
+//     });
+// }
 
 function salvar() {
     fetch('http://127.0.0.1:8080/responsaveis', {
@@ -148,4 +147,87 @@ function deletar() {
     }).catch(error => {
        
     });
+}
+
+function mostrarErro(idElemento, mensagem) {
+    document.getElementById(idElemento).textContent = mensagem;
+}
+function limparErros() {
+    let erros = document.querySelectorAll('.erro');
+    erros.forEach(e => e.textContent = '');
+}
+
+function validarFormulario() {
+    //limparErros();
+
+    // Captura dos valores do formulário
+    let nome = document.getElementById("nome").value;
+    let cpf = document.getElementById("cpf").value;
+    let telefone = document.getElementById("telefone").value;
+    let email = document.getElementById("email").value;
+    let senha = document.getElementById("senha").value;
+    let confirme = document.getElementById("confirme").value;
+
+
+    let ok = true;
+
+    if (!nome) { mostrarErro('erro-nome', 'Verifique se possui nome para continuar.'); ok = false; }
+    if (!cpf) { mostrarErro('erro-cpf', 'Verifique se possui cpf para continuar.'); ok = false; }
+    if (!telefone) { mostrarErro('erro-telefone', 'Verifique se possui nome para continuar.'); ok = false; }
+    if (!email) { mostrarErro('erro-email', 'Verifique se possui email para continuar.'); ok = false; }
+    if (!senha) { mostrarErro('erro-senha', 'Verifique se possui senha para continuar.'); ok = false; }
+    if (!confirme) { mostrarErro('erro-confirme', 'Verifique se possui confirme senha para continuar.'); ok = false; }
+
+    return ok;
+}
+
+function coletarDados() {
+    const canvas = document.getElementById('signaturePad');
+  
+    return {
+        nome: document.getElementById("nome").value.trim(),
+        cpf: document.getElementById("cpf").value.trim(),
+        telefone: document.getElementById("telefone").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        usuario: document.getElementById("usuario").value.trim(),
+        senha: document.getElementById("senha").value.trim(),
+        confirmarSenha: document.getElementById("confirme").value.trim(),
+        assinaturaDigital: canvas.toDataURL(),// converte assinatura para Base64
+
+    };
+}
+
+
+function concluirVistoria() {
+
+    alert("chamou funcao concluir");
+    
+    if (!validarFormulario()) return;
+
+    const dados = coletarDados();
+    //console.log("Enviando criar conta:", dados);
+
+    fetch('http://localhost:8080/usuario/insert', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+    })
+
+
+    .then(response => {
+    if (!response.ok) {
+      throw new Error("Erro na resposta da API");
+    }
+    return response.json(); // <- converte o corpo da resposta em JSON
+  }).then(  data =>  {
+
+    const criarConta_id = data.id;
+    console.log("Id do registro salvo: ", criarConta_id);
+
+    localStorage.setItem('id_criarConta', criarConta_id);
+    //let valorDaChaveDoProfessor = localStorage.getItem('id_professor');
+      alert("Cadastrado com Sucesso");
+
+  }).catch(error => console.error('Erro!:', error));
+
 }
