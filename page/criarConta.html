@@ -12,28 +12,37 @@
     <hr>
     <b>Nome: </b> 
 
-    <input id="usuario" class="form-control" type="nome" placeholder="Digite seu nome:"> <br>
+    <input id="nome" class="form-control" type="nome" placeholder="Digite seu nome:"> <br>
+    <div id="erro-usuario" class="erro"></div>
 
     <b id="cpf">CPF: </b> 
     <input id="cpf" class="form-control" type="cpf" placeholder="Digite seu CPF:"> <br>
+    <div id="erro-cpf" class="erro"></div>
+
 
     <b id="cpf">Telefone: </b> 
-    <input id="telefone" class="form-control" type="telefone" placeholder="Ex (00) 0000-0000:"> <br>
+    <input id="telefone" class="form-control" type="text" placeholder="Ex (00) 0000-0000:"> <br>
+    <div id="erro-telefone" class="erro"></div>
 
     <b>Email: </b> 
     <div id="email" style="position: relative; display: inline-block;">
     <i class="fa fa-envelope" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: gray;"></i>
     <input id="email" class="form-control" type="email" placeholder="      you@example.com">
     </div>
+    <div id="erro-email" class="erro"></div>
 
     <b>Usuário: </b> 
-    <input id="usuario" class="form-control" type="text" placeholder="Digite um nome de usuário:"> <br>
+    <input id="usuario" class="form-control" type="usuario" placeholder="Digite um nome de usuário:"> <br>
+    <div id="erro-usuario" class="erro"></div>
+
 
     <b id="senha">Senha: </b> 
     <input id="senha" class="form-control" type="password" placeholder="Digite sua senha"> <br>
+    <div id="erro-senha" class="erro"></div>
 
     <b id="confirme">Confirme sua Senha: </b>
     <input id="confirme" class="form-control" type="password" placeholder="Confirme sua senha"> <br>
+    <div id="erro-confirme" class="erro"></div>
 
     <div class="signature-container">
             <div class="signature-header">
@@ -45,9 +54,9 @@
         </div>
 
     <div class="btn-container">
-    <button class="btn btn-danger" id="criar" type="button" onclick="criarconta()">Criar Conta</button>
-    <button class="btn btn-danger" id="criar" type="button" onclick="salvar()">Salvar</button>
-    <button class="btn btn-danger" id="criar" type="button" onclick="deletar()">Deletar</button>
+    <button class="btn btn-danger" id="concluir" type="button" onclick="concluirVistoria()">Criar Conta</button>
+    <button class="btn btn-danger" id="salvar" type="button" onclick="salvar()">Salvar</button>
+    <button class="btn btn-danger" id="deletar" type="button" onclick="deletar()">Deletar</button>
 
     </div>
 </form>
