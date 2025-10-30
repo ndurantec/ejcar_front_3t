@@ -167,16 +167,124 @@ botaoConcluir.addEventListener('click', validarCheckbox);
 
 
 function concluir() {
-    fetch('http://127.0.0.1:8080/responsaveis', {
-       
-    }).then(response => {
-           
-    }).then(data => {
-       
-    }).catch(error => {
-       
-    });
+    function concluirVistoria() {
+
+        if (!validarFormulario()) return;
+    
+        const dados = coletarDados();
+        //console.log("Enviando criar conta:", dados);
+    
+        console.log(JSON.stringify(dados));
+    
+        var headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        headers.append("Access-Control-Allow-Origin", "*");
+    
+        fetch('http://localhost:8080/usuario/insert', {
+            
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            body: JSON.stringify(
+                dados
+            ),
+        
+            headers: headers
+    
+        })
+        .then(async response => {
+          let data = await response.json();
+    
+          console.log(data);
+          
+          if (!response.ok) {
+            // Caso sejam erros de validação no DTO
+            if (typeof data === "object") {
+              let mensagens = Object.values(data).join("<br>");
+    
+              console.log("Entrou dento do if data ==== object");
+              console.log("----------------------------------------------");
+              console.log(mensagens);
+              console.log("----------------------------------------------");
+    
+                let mensagensGlobais = []; // Para erros que não mapeiam para um campo específico
+    
+                for (const [campo, mensagem] of Object.entries(data)) {
+                    // Mapeia o nome do campo do backend ('cpf', 'email', etc.) para o ID do elemento no HTML
+                    const idElementoErro = "erro-" + campo; // Ex: 'cpf_error_message'
+    
+                    console.log("========================================================");
+                    console.log(idElementoErro);
+                    console.log("========================================================");
+                    // Tenta exibir o erro no elemento específico
+                    if (document.getElementById(idElementoErro)) {
+                        //CHAMANDO A SUA FUNÇÃO mostrarErro(idElemento, mensagem)
+                        mostrarErro(idElementoErro, mensagem);
+                                            
+                    }
+                }
+              
+            } else {
+              mostrarMensagem("⚠️ Erro desconhecido", "erro");
+            }
+            throw new Error("Erro de validação");
+          }
+    
+          return data;
+        })
+        .then(data => {
+          if (data.id) {
+            localStorage.setItem("id_professor", data.id);
+            // mostrarMensagem(data.message || "✅ Professor cadastrado com sucesso!", "sucesso");
+          }
+        })
+        .catch(error => console.error(error));
+    }
+    
 }
+
+
+
+function validarFormulario() {
+    //limparErros();
+    // Captura dos valores do formulário
+    let nome = document.getElementById("nome").value;
+    let cpf = document.getElementById("cpf").value;
+    let telefone = document.getElementById("telefone").value;
+    let email = document.getElementById("email").value;
+    let senha = document.getElementById("senha").value;
+    let confirme = document.getElementById("confirme").value;
+
+
+    let ok = true;
+
+    if (!nome) { mostrarErro('erro-nome', 'Verifique se possui nome para continuar.'); ok = false; }
+    if (!cpf) { mostrarErro('erro-cpf', 'Verifique se possui cpf para continuar.'); ok = false; }
+    if (!telefone) { mostrarErro('erro-telefone', 'Verifique se possui nome para continuar.'); ok = false; }
+    if (!email) { mostrarErro('erro-email', 'Verifique se possui email para continuar.'); ok = false; }
+    if (!senha) { mostrarErro('erro-senha', 'Verifique se possui senha para continuar.'); ok = false; }
+    if (!confirme) { mostrarErro('erro-confirme', 'Verifique se possui confirme senha para continuar.'); ok = false; }
+
+    return ok;
+}
+
+
+
+function coletarDados() {
+  
+    return {
+        nome: document.getElementById("nome").value.trim(),
+        cpf: document.getElementById("cpf").value.trim(),
+        telefone: document.getElementById("telefone").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        user: document.getElementById("usuario").value.trim(),
+        password: document.getElementById("senha").value.trim(),
+        confirmarSenha: document.getElementById("confirme").value.trim(),
+        imagemBase64:  document.getElementById('signaturePad').toDataURL(),// converte assinatura para Base64
+
+    };
+}
+
 
 function salvar() {
 limparErros();
@@ -246,6 +354,9 @@ limparErros();
     });
 }
 
+
+
+
 function deletar() {
     fetch('http://localhost:8080/vistoria/{id}', {
        
@@ -257,6 +368,8 @@ function deletar() {
        
     });
 }
+
+
 
 function atualizar() {
     fetch('http://localhost:8080/vistoria/{id}', {
