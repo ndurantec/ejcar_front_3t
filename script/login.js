@@ -36,3 +36,38 @@ function logar() {
        
     });
 }
+
+
+function buscarVistoria() {
+
+   var headers = new Headers();
+   headers.append("Content-Type", "application/json");
+   headers.append("Access-Control-Allow-Origin", "*");
+
+   fetch("http://localhost:8080/vistoria/autenticar" , {
+
+     method: "GET",
+     mode: "cors",
+     cache: "no-cache",
+     
+      
+     headers: headers
+
+   }).then(response => {
+     if (!response.ok) {
+       throw new Error("dados lidos!");
+     }
+     return response.json(); // <- converte o corpo da resposta em JSON
+   }).then(  data =>  {
+
+     const vistoria_id = data.id;
+     console.log("dados lidos com sucesso: ", vistoria_id);
+
+     localStorage.setItem('id_vistoria', vistoria_id);
+
+   }).catch(error => console.error('Erro ao ler os dados!:', error));
+
+}
+
+
+

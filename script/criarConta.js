@@ -279,3 +279,4 @@ function concluirVistoria() {
     })
     .catch(error => console.error(error));
 }
+
