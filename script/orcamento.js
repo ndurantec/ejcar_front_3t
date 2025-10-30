@@ -27,30 +27,81 @@ async function carregarVeiculos(modeloSelecionado = '') {
       // Carrega os veículos assim que a página abrir
       document.addEventListener('DOMContentLoaded', carregarVeiculos);
 
-      function adicionarLinha() {
-        const container = document.getElementById("orcamento-linhas");
-        const novaLinha = document.createElement("div");
-        novaLinha.classList.add("linha-orcamento");
-      
-        novaLinha.innerHTML = `
-          <select class="form-control veiculo">
-            <option value="">Selecione o veículo</option>
-          </select>
-          <input type="text" class="form-control codigo" placeholder="Código do Orçamento">
-          <input type="text" class="form-control produto" placeholder="Produto ou serviço">
-          <input type="number" class="form-control mao-obra" placeholder="Mão de obra (R$)" min="0" step="0.01">
-          <button type="button" class="btn btn-remove" onclick="removerLinha(this)"><i class="fas fa-minus"></i></button>
-        `;
-      
-        container.appendChild(novaLinha);
-      }
-      
-      function removerLinha(botao) {
-        botao.parentElement.remove();
-      }
-      
-
-      function mostrarErro(idElemento, mensagem) {
+      // Adiciona uma nova linha com botão de remover
+function adicionarLinha() {
+    const container = document.getElementById("orcamento-linhas");
+  
+    const novaLinha = document.createElement("div");
+    novaLinha.classList.add("linha-orcamento");
+  
+    novaLinha.innerHTML = `
+      <input type="text" class="form-control produto" placeholder="Produto">
+      <input type="number" class="form-control mao-obra" placeholder="Mão de obra (R$)" min="0" step="0.01">
+      <button type="button" class="btn btn-add" onclick="adicionarLinha()">
+        <i class="fas fa-plus"></i>
+      </button>
+      <button type="button" class="btn btn-remove" onclick="removerLinha(this)">
+        <i class="fas fa-trash"></i>
+      </button>
+    `;
+  
+    container.appendChild(novaLinha);
+  
+    atualizarBotoes();
+    atualizarTotal();
+  }
+  
+  // Remove uma linha (com confirmação)
+  function removerLinha(botao) {
+    const confirmar = confirm("Deseja realmente remover esta linha?");
+    if (!confirmar) return;
+  
+    const linha = botao.closest(".linha-orcamento");
+    linha.remove();
+  
+    atualizarBotoes();
+    atualizarTotal();
+  }
+  
+  // Exibe o botão "+" apenas na última linha e o "🗑️" só nas linhas extras
+  function atualizarBotoes() {
+    const linhas = document.querySelectorAll(".linha-orcamento");
+  
+    linhas.forEach((linha, index) => {
+      const btnAdd = linha.querySelector(".btn-add");
+      const btnRemove = linha.querySelector(".btn-remove");
+  
+      // Só a última linha mostra o botão "+"
+      if (btnAdd) btnAdd.style.display = index === linhas.length - 1 ? "inline-flex" : "none";
+  
+      // Primeira linha (índice 0) nunca mostra o botão remover
+      if (btnRemove) btnRemove.style.display = index === 0 ? "none" : "inline-flex";
+    });
+  }
+  
+  // Atualiza o total da mão de obra em tempo real
+  function atualizarTotal() {
+    const campos = document.querySelectorAll(".mao-obra");
+    let total = 0;
+  
+    campos.forEach((campo) => {
+      const valor = parseFloat(campo.value) || 0;
+      total += valor;
+  
+      campo.removeEventListener("input", atualizarTotal);
+      campo.addEventListener("input", atualizarTotal);
+    });
+  
+    document.getElementById("totalMaoObra").value = total.toFixed(2);
+  }
+  
+  // Quando a página carrega
+  window.addEventListener("load", () => {
+    atualizarBotoes();
+    atualizarTotal();
+  });
+  
+    function mostrarErro(idElemento, mensagem) {
         document.getElementById(idElemento).textContent = mensagem;
     }
     function limparErros() {
@@ -59,89 +110,58 @@ async function carregarVeiculos(modeloSelecionado = '') {
     }
 
 
-
-
-function tabelaOrcamento() {
-    fetch("http://localhost:8080/orcamento/tabelaOrcamento", {
-        method: "GET",
-        mode: "cors",
-        cache: "no-cache"
-    })
-    .then(response => response.json())
-    .then(data => {
-        let tabela = "<table border='1'><tr><th>ID</th><th>Código</th><th>Produto</th><th>Mão de Obra</th><th>ID Usuário</th><th>ID Veículo</th></tr>";
-        data.forEach(o => {
-            tabela += `<tr>
-                <td>${o.id}</td>
-                <td>${o.codigoOrcamento}</td>
-                <td>${o.produto}</td>
-                <td>${o.maoDeObra}</td>
-                <td>${o.idUsuario}</td>
-                <td>${o.veiculoDto ? o.veiculoDto.id : "-"}</td>
-            </tr>`;
-        });
-        tabela += "</table>";
-        document.getElementById("resultado").innerHTML = tabela;
-    })
-    .catch(error => {
-        document.getElementById("resultado").innerText =
-            "Erro ao listar orçamentos: " + JSON.stringify(error);
-    });
-}
-
-function atualizarOrcamento() {
-    const id = parseInt(document.getElementById("idOrcamento").value.trim());
-    const maoDeObra = document.getElementById("maoDeObra").value.trim();
-    const produto = document.getElementById("produto").value.trim();
-    const codigoOrcamento = document.getElementById("codigoOrcamento").value.trim();
-
-    var headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    const corpo = JSON.stringify({
+    function getValueOrWarn(selector, nomeCampo) {
+      const el = document.querySelector(selector);
+      if (!el) {
+        console.warn(`Elemento não encontrado: ${selector} (${nomeCampo})`);
+        return null;
+      }
+      return el.value;
+    }
+    
+    async function finalizarOrcamento() {
+      const veiculoId = getValueOrWarn('#selectVeiculo', 'Veículo');
+      const codigoOrcamento = getValueOrWarn('#codigoOrcamento', 'Código do Orçamento');
+      const produto = getValueOrWarn('#produto', 'Produto');
+      const maoDeObraStr = getValueOrWarn('#maoDeObra', 'Mão de obra');
+    
+      // Se algum campo não existir ou estiver vazio, sai da função
+      if (!veiculoId || !codigoOrcamento || !produto) {
+        alert("Preencha todos os campos obrigatórios!");
+        return;
+      }
+    
+      const maoDeObra = parseFloat(maoDeObraStr) || 0;
+    
+      const orcamentoData = {
         maoDeObra: maoDeObra,
         produto: produto,
-        codigoOrcamento: codigoOrcamento
-    });
-
-    fetch("http://localhost:8080/orcamento/${id}", {
-        method: "PUT",
-        mode: "cors",
-        headers: headers,
-        body: corpo
-    })
-    .then(response => {
-        if (!response.ok) {
-            return response.json().then(err => { throw err });
+        codigoOrcamento: codigoOrcamento,
+        idUsuario: 1,
+        veiculoDto: {
+          id: parseInt(veiculoId)
         }
-        return response.json();
-    })
-    .then(data => {
-        document.getElementById("resultado").innerText =
-            "Orçamento atualizado com sucesso! ID: " + data.id;
-    })
-    .catch(error => {
-        document.getElementById("resultado").innerText =
-            "Erro ao atualizar orçamento: " + JSON.stringify(error);
-    });
-}
-
-function deletarOrcamento() {
-    const id = parseInt(document.getElementById("idOrcamento").value.trim());
-
-    fetch("http://localhost:8080/orcamento/${id}", {
-        method: "DELETE",
-        mode: "cors"
-    })
-    .then(response => {
-        if (!response.ok) {
-            return response.json().then(err => { throw err });
+      };
+    
+      try {
+        const response = await fetch("http://localhost:8080/orcamento/cadorca", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orcamentoData)
+        });
+    
+        if (response.ok) {
+          const result = await response.json();
+          console.log(" Orçamento salvo:", result);
+          alert("Orçamento finalizado com sucesso!");
+        } else {
+          const error = await response.json();
+          console.error(" Erro ao salvar:", error);
+          alert("Erro ao finalizar orçamento: " + (error.message || "Verifique os dados."));
         }
-        document.getElementById("resultado").innerText =
-            "Orçamento deletado com sucesso! ID: " + id;
-    })
-    .catch(error => {
-        document.getElementById("resultado").innerText =
-            "Erro ao deletar orçamento: " + JSON.stringify(error);
-    });
-}
+      } catch (error) {
+        console.error(" Erro de conexão:", error);
+        alert("Erro de conexão com o servidor.");
+      }
+    }
+    

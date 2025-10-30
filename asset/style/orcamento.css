@@ -93,3 +93,38 @@ body {
         font-size: 20px;
     }
 }
+
+.linha-topo {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.linha-total {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.linha-total input {
+  width: 150px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.btn-remove {
+  background-color: #d9534f;
+  color: #fff;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-remove:hover {
+  background-color: #c9302c;
+}
