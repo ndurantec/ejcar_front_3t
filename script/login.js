@@ -102,6 +102,10 @@ function logar() {
   
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 80961fff9bd3e494311e0e1ae1f5a9954815831a
 function buscarVistoria() {
 
    var headers = new Headers();
@@ -113,6 +117,7 @@ function buscarVistoria() {
      method: "GET",
      mode: "cors",
      cache: "no-cache",
+<<<<<<< HEAD
 
 
      body: JSON.stringify({
@@ -134,6 +139,12 @@ function buscarVistoria() {
      headers: headers
 
 
+=======
+     
+      
+     headers: headers
+
+>>>>>>> 80961fff9bd3e494311e0e1ae1f5a9954815831a
    }).then(response => {
      if (!response.ok) {
        throw new Error("dados lidos!");
@@ -151,3 +162,7 @@ function buscarVistoria() {
 }
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 80961fff9bd3e494311e0e1ae1f5a9954815831a

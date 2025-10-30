@@ -24,63 +24,42 @@ async function carregarVeiculos(modeloSelecionado = '') {
           alert('Erro ao carregar veículos');
         }
       }
-    
       // Carrega os veículos assim que a página abrir
       document.addEventListener('DOMContentLoaded', carregarVeiculos);
 
-
-function finalizarOrcamento() {
-
-        const maoDeObra = document.getElementById("maoDeObra").value.trim();
-        const produto = document.getElementById("produto").value.trim();
-        const codigoOrcamento = document.getElementById("codigoOrcamento").value.trim();
-        const idUsuario = parseInt(document.getElementById("idUsuario").value.trim());
-        const veiculoDto = {
-                id: parseInt(document.getElementById("idVeiculo").value.trim())
-            };
-    
-
-        //let valorDaChaveDoProfessor = localStorage.getItem('id_professor');
+      function adicionarLinha() {
+        const container = document.getElementById("orcamento-linhas");
+        const novaLinha = document.createElement("div");
+        novaLinha.classList.add("linha-orcamento");
       
-        var headers = new Headers();
-        headers.append("Content-Type", "application/json");
-        headers.append("Access-Control-Allow-Origin", "*");
+        novaLinha.innerHTML = `
+          <select class="form-control veiculo">
+            <option value="">Selecione o veículo</option>
+          </select>
+          <input type="text" class="form-control codigo" placeholder="Código do Orçamento">
+          <input type="text" class="form-control produto" placeholder="Produto ou serviço">
+          <input type="number" class="form-control mao-obra" placeholder="Mão de obra (R$)" min="0" step="0.01">
+          <button type="button" class="btn btn-remove" onclick="removerLinha(this)"><i class="fas fa-minus"></i></button>
+        `;
       
-        fetch("http://localhost:8080/orcamento/cadorca"), {
-      
-          method: "POST",
-          mode: "cors",
-          cache: "no-cache",
-      
-          body: JSON.stringify({
-            maoDeObra: maoDeObra,
-            produto: produto,
-            codigoOrcamento: codigoOrcamento,
-            idUsuario: idUsuario,
-            veiculoDto: veiculoDto
-          }),
-           
-          headers: headers
-      
-       
-          .then(response => {
-                if (!response.ok) {
-                    return response.json().then(err => { throw err });
-                }
-                return response.json();
-            })
-            .then(data => {
-                document.getElementById("resultado").innerText = 
-                    "Orçamento cadastrado com sucesso! ID: " + data.id;
-            })
-            .catch(error => {
-                console.error("Erro:", error);
-                document.getElementById("resultado").innerText = 
-                    "Erro ao cadastrar orçamento: " + JSON.stringify(error);
-            })
-      
+        container.appendChild(novaLinha);
       }
-}
+      
+      function removerLinha(botao) {
+        botao.parentElement.remove();
+      }
+      
+
+      function mostrarErro(idElemento, mensagem) {
+        document.getElementById(idElemento).textContent = mensagem;
+    }
+    function limparErros() {
+        let erros = document.querySelectorAll('.erro');
+        erros.forEach(e => e.textContent = '');
+    }
+
+
+
 
 function tabelaOrcamento() {
     fetch("http://localhost:8080/orcamento/tabelaOrcamento", {
