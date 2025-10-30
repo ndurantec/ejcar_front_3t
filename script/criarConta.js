@@ -187,12 +187,12 @@ function coletarDados() {
     return {
         nome: document.getElementById("nome").value.trim(),
         cpf: document.getElementById("cpf").value.trim(),
-        telefone: document.getElementById("telefone").value.trim(),
+        //telefone: document.getElementById("telefone").value.trim(),
         email: document.getElementById("email").value.trim(),
-        usuario: document.getElementById("usuario").value.trim(),
-        senha: document.getElementById("senha").value.trim(),
-        confirmarSenha: document.getElementById("confirme").value.trim(),
-        assinaturaDigital: canvas.toDataURL(),// converte assinatura para Base64
+        user: document.getElementById("usuario").value.trim(),
+        password: document.getElementById("senha").value.trim(),
+        //confirmarSenha: document.getElementById("confirme").value.trim(),
+        //assinaturaDigital: canvas.toDataURL(),// converte assinatura para Base64
 
     };
 }
@@ -200,34 +200,82 @@ function coletarDados() {
 
 function concluirVistoria() {
 
-    alert("chamou funcao concluir");
+    
     
     if (!validarFormulario()) return;
 
     const dados = coletarDados();
     //console.log("Enviando criar conta:", dados);
 
+    console.log(JSON.stringify(dados));
+
+    var headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Access-Control-Allow-Origin", "*");
+
     fetch('http://localhost:8080/usuario/insert', {
+        
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dados)
+        mode: 'cors',
+        cache: 'no-cache',
+        body: JSON.stringify(
+            dados
+        ),
+    
+        headers: headers
+
+
     })
+    .then(async response => {
+      let data = await response.json();
+
+      console.log(data);
+      
+
+      if (!response.ok) {
+        // Caso sejam erros de validação no DTO
+        if (typeof data === "object") {
+          let mensagens = Object.values(data).join("<br>");
+
+          console.log("Entrou dento do if data ==== object");
+          console.log("----------------------------------------------");
+          console.log(mensagens);
+          console.log("----------------------------------------------");
+
+            let mensagensGlobais = []; // Para erros que não mapeiam para um campo específico
+
+            for (const [campo, mensagem] of Object.entries(data)) {
+                // Mapeia o nome do campo do backend ('cpf', 'email', etc.) para o ID do elemento no HTML
+                const idElementoErro = "erro-" + campo; // Ex: 'cpf_error_message'
+
+                console.log("========================================================");
+                console.log(idElementoErro);
+                console.log("========================================================");
+                // Tenta exibir o erro no elemento específico
+                if (document.getElementById(idElementoErro)) {
+                    //CHAMANDO A SUA FUNÇÃO mostrarErro(idElemento, mensagem)
+                    mostrarErro(idElementoErro, mensagem);
+                                        
+                } 
 
 
-    .then(response => {
-    if (!response.ok) {
-      throw new Error("Erro na resposta da API");
-    }
-    return response.json(); // <- converte o corpo da resposta em JSON
-  }).then(  data =>  {
 
-    const criarConta_id = data.id;
-    console.log("Id do registro salvo: ", criarConta_id);
+            }
 
-    localStorage.setItem('id_criarConta', criarConta_id);
-    //let valorDaChaveDoProfessor = localStorage.getItem('id_professor');
-      alert("Cadastrado com Sucesso");
+          
+        } else {
+          mostrarMensagem("⚠️ Erro desconhecido", "erro");
+        }
+        throw new Error("Erro de validação");
+      }
 
-  }).catch(error => console.error('Erro!:', error));
-
+      return data;
+    })
+    .then(data => {
+      if (data.id) {
+        localStorage.setItem("id_usuario", data.id);
+        // mostrarMensagem(data.message || "✅ Usuario cadastrado com sucesso!", "sucesso");
+      }
+    })
+    .catch(error => console.error(error));
 }
