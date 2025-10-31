@@ -125,29 +125,29 @@ document.addEventListener('DOMContentLoaded', function() {
 //     });
 // }
 
-function salvar() {
-    fetch('http://127.0.0.1:8080/responsaveis', {
+// function salvar() {
+//     fetch('http://127.0.0.1:8080/responsaveis', {
        
-    }).then(response => {
+//     }).then(response => {
            
-    }).then(data => {
+//     }).then(data => {
        
-    }).catch(error => {
+//     }).catch(error => {
        
-    });
-}
+//     });
+// }
 
-function deletar() {
-    fetch('http://127.0.0.1:8080/responsaveis', {
+// function deletar() {
+//     fetch('http://127.0.0.1:8080/responsaveis', {
        
-    }).then(response => {
+//     }).then(response => {
            
-    }).then(data => {
+//     }).then(data => {
        
-    }).catch(error => {
+//     }).catch(error => {
        
-    });
-}
+//     });
+// }
 
 function mostrarErro(idElemento, mensagem) {
     document.getElementById(idElemento).textContent = mensagem;
