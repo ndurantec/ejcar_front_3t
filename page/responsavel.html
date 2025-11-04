@@ -22,7 +22,6 @@
                 <div class="input-icon">
                     <i class="fas fa-user"></i>
                     <input type="text" name="nome" id="nome" placeholder="Digite o Nome">
-                
             </div>
            
             <div class="form-group">
@@ -34,13 +33,13 @@
             </div>
            
             <div class="form-group">
-                <label for="endereco">Endereço:</label>
+                <label for="cpf">CPF:</label>
                 <div class="input-icon">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <input type="text" name="endereco" id="endereco" placeholder="Digite o Endereço">
+                    <i class="fas fa-map-pin"></i>
+                    <input type="text" name="cpf" id="cpf" placeholder="Digite o CPF">
                 </div>
             </div>
-           
+
             <div class="form-group">
                 <label for="cep">CEP:</label>
                 <div class="input-icon">
@@ -50,22 +49,24 @@
             </div>
 
             <div class="form-group">
-                <label for="cpf">Cpf:</label>
+                <label for="endereco">Endereço:</label>
                 <div class="input-icon">
-                    <i class="fas fa-map-pin"></i>
-                    <input type="text" name="cpf" id="cpf" placeholder="Digite o CEP">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" name="endereco" id="endereco" placeholder="Digite o Endereço">
                 </div>
             </div>
-
-            <button type="button" class="button" onclick="concluirResponsavel()" id="botao">
-                <i class="fas fa-user-plus"></i> Cadastrar
-            </button>
-
-            <button type="button" class="button" onclick="salvarResponsavel()" id="botao">salvar</button>
-            <button type="button" class="button" onclick="alterarResponsavel()" id="botao">alterar</button>
-            <button type="button" class="button" onclick="consultarResponsavel()" id="botao">consultar</button>
-            <button type="button" class="button" onclick="deletarResponsavel()" id="botao">deletar</button>
            
+
+            <div class="btn-container">
+                <button type="button" class="button" onclick="naosei()" id="botao">
+                    <i class="fas fa-user-plus"></i> Cadastrar
+                </button>
+
+                <button type="button" class="button" onclick="concluirResponsavel()" id="botao">salvar</button>
+                <button type="button" class="button" onclick="alterarResponsavel()" id="botao">alterar</button>
+                <button type="button" class="button" onclick="consultarResponsavel()" id="botao">consultar</button>
+                <button type="button" class="button" onclick="deletarResponsavel()" id="botao">deletar</button>
+            </div>
            
         </form>
     </div>

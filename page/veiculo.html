@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cadastrar Veículo</title>
+  <link rel="stylesheet" href="/asset/style/veiculo.css">
+</head>
+
+<body>
+  
+  <div class="container">
+    <h2>CADASTRAR VEÍCULO</h2>
+    <div class="linha-vermelha"></div>
+
+    <form>
+      <div class="linha">
+        <div class="campo">
+          <label for="responsavel">Responsável:</label>
+          <input type="text" id="responsavel" name="responsavel" placeholder="Ex: Maria Eduarda" required />
+        </div>
+
+        <div class="campo">
+          <label for="modelo">Modelo:</label>
+          <input type="text" id="modelo" name="modelo" placeholder="Ex: Fiat Uno" required />
+        </div>
+      </div>
+
+      <div class="linha">
+        <div class="campo">
+          <label for="placa">Placa:</label>
+          <input type="text" id="placa" name="placa" placeholder="Ex: ABC-1234" required />
+        </div>
+
+        <div class="campo">
+          <label for="ano">Ano:</label>
+          <input type="text" id="ano" name="ano" placeholder="Ex: 2020" required />
+        </div>
+      </div>
+
+      <div class="linha">
+        <div class="campo">
+          <label for="cor">Cor:</label>
+          <input type="text" id="cor" name="cor" placeholder="Ex: Vermelho" required />
+        </div>
+
+        <div class="campo">
+          <label for="chassi">Chassi:</label>
+          <input type="text" id="chassi" name="chassi" placeholder="Ex: 1234567890ABCDEF" required />
+        </div>
+      </div>
+
+      <div class="radio-group">
+        <div class="radio-option">
+          <input type="radio" id="seguradoraSim" name="temSeguradora" value="sim">
+          <label for="seguradoraSim">Sim</label>
+        </div>
+      
+        <div class="radio-option">
+          <input type="radio" id="seguradoraNao" name="temSeguradora" value="nao">
+          <label for="seguradoraNao">Não</label>
+        </div>
+      </div>
+      
+      <div class="seguradora-container">
+        <div class="seguradora-campos">
+          <div class="campo">
+            <label for="nomeSeguradora">Nome da seguradora:</label>
+            <input type="text" id="nomeSeguradora" placeholder="Ex: Porto Seguro">
+          </div>
+          <div class="campo">
+            <label for="numeroSeguradora">Número da seguradora:</label>
+            <input type="text" id="numeroSeguradora" placeholder="(00) 00000-0000">
+          </div>
+        </div>
+      </div>
+
+      <div class="botoes">
+        <button type="button" onclick="concluirVeiculo()">Cadastrar</button>
+        <button type="button" onclick="consultar()">Consultar</button>
+        <button type="button" onclick="alterar()">Alterar</button>
+        <button type="button" onclick="apagar()">Apagar</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="/script/veiculo.js"></script>
+</body>
+
+</html>

@@ -18,24 +18,14 @@
 
             <label for="saidaVeiculo"><b>Data da saída do veículo:</b></label>
             <input type="datetime-local" id="saidaVeiculo" class="form-control">
+            
+        </form>
+        
 
-            <b>Tem seguradora?</b>
-            <div class="checkbox-container">
-                <input type="radio" name="temSeguradora" id="seguradoraSim" value="Sim">
-                <label for="seguradoraSim">Sim</label>
 
-                <input type="radio" name="temSeguradora" id="seguradoraNao" value="Não">
-                <label for="seguradoraNao">Não</label>
-            </div>
-
-            <label for="nomeSeguradora"><b>Nome da seguradora:</b></label>
-            <input type="text" id="nomeSeguradora" class="form-control" placeholder="Digite o nome da seguradora">
-
-            <label for="numeroSeguradora"><b>Número da seguradora:</b></label>
-            <input type="tel" id="numeroSeguradora" class="form-control" placeholder="(00) 00000-0000">
 
             <div class="btn-container">
-                <button type="button" class="btn-danger" onclick="agendar()">Concluir</button>
+                <button type="button" class="btn-danger" onclick="concluirAgendamento()">Concluir</button>
 
                 <button type="button" class="btn-danger" onclick="salvarAgendamento()" id="botao">salvar</button>
                 <button type="button" class="btn-danger" onclick="alterarAgendamento()" id="botao">alterar</button>
