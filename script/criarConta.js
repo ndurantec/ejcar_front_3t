@@ -84,33 +84,33 @@ document.addEventListener('DOMContentLoaded', function() {
     
                    // Botão limpar//
     clearBtn.addEventListener('click', clearSignature);
+    
     window.addEventListener('resize', initCanvas);
     
-    // const concluirBtn = document.getElementById('concluirBtn');
-    // concluirBtn.addEventListener('click', function() {
-    //     alert('Conta registrada com sucesso!');
-    // });
+    
 }); 
 
-//function criarconta() {
-    //const nome = document.getElementById("usuario").value;
-    //const senha = document.getElementById("senha").value;
-    //const email = document.querySelector('input[type="email"]').value;
 
-    //if(nome === ""){
-        //alert("Você precisa preencher o campo nome");
-    //}
 
-    //if(senha === ""){
-      //alert("Você precisa preencher o campo senha");
-    //}
+function salvar() {
+    const nome = document.getElementById("usuario").value;
+    const senha = document.getElementById("senha").value;
+    const email = document.querySelector('input[type="email"]').value;
 
-    //if(email === ""){
-        //alert("Você precisa preencher o campo email");
-    //}
+    if(nome === ""){
+        alert("Você precisa preencher o campo nome");
+    }
 
-    //alert(nome + " - " + senha + " - " + email);
-//}
+    if(senha === ""){
+      alert("Você precisa preencher o campo senha");
+    }
+
+    if(email === ""){
+        alert("Você precisa preencher o campo email");
+    }
+
+    alert(nome + " - " + senha + " - " + email);
+}
 
 
 // function concluir() {
@@ -125,17 +125,22 @@ document.addEventListener('DOMContentLoaded', function() {
 //     });
 // }
 
-function salvar() {
-    fetch('http://127.0.0.1:8080/responsaveis', {
-       
-    }).then(response => {
-           
-    }).then(data => {
-       
-    }).catch(error => {
-       
-    });
+function concluir() {
+    // Código da função aqui...
+    // console.log("Conta concluída!");
 }
+
+// function salvar() {
+//     fetch('http://127.0.0.1:8080/responsaveis', {
+       
+//     }).then(response => {
+           
+//     }).then(data => {
+       
+//     }).catch(error => {
+       
+//     });
+// }
 
 function deletar() {
     fetch('http://127.0.0.1:8080/responsaveis', {
@@ -191,16 +196,16 @@ function coletarDados() {
         email: document.getElementById("email").value.trim(),
         user: document.getElementById("usuario").value.trim(),
         password: document.getElementById("senha").value.trim(),
-        //confirmarSenha: document.getElementById("confirme").value.trim(),
-        //assinaturaDigital: canvas.toDataURL(),// converte assinatura para Base64
+        confirmarSenha: document.getElementById("confirme").value.trim(),
+        assinatura: canvas.toDataURL(),// converte assinatura para Base64
 
     };
 }
 
 
-function concluirVistoria() {
+function salvarUsuario() {
 
-    
+    console.log("A função 'salvarUsuario' foi chamada e está executando a lógica de salvar.");
     
     if (!validarFormulario()) return;
 
@@ -213,17 +218,16 @@ function concluirVistoria() {
     headers.append("Content-Type", "application/json");
     headers.append("Access-Control-Allow-Origin", "*");
 
+
     fetch('http://localhost:8080/usuario/insert', {
         
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
-        body: JSON.stringify(
-            dados
-        ),
+
+        body: JSON.stringify (dados),
     
         headers: headers
-
 
     })
     .then(async response => {
@@ -231,7 +235,6 @@ function concluirVistoria() {
 
       console.log(data);
       
-
       if (!response.ok) {
         // Caso sejam erros de validação no DTO
         if (typeof data === "object") {
@@ -258,11 +261,8 @@ function concluirVistoria() {
                                         
                 } 
 
-
-
             }
 
-          
         } else {
           mostrarMensagem("⚠️ Erro desconhecido", "erro");
         }
@@ -274,7 +274,7 @@ function concluirVistoria() {
     .then(data => {
       if (data.id) {
         localStorage.setItem("id_usuario", data.id);
-        // mostrarMensagem(data.message || "✅ Usuario cadastrado com sucesso!", "sucesso");
+        mostrarMensagem(data.message || "✅ Usuario cadastrado com sucesso!", "sucesso");
       }
     })
     .catch(error => console.error(error));

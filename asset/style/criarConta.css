@@ -73,7 +73,7 @@
     }
 
     /* Container do Email com Ícone */
-    .formulario-com-borda #email {
+    .formulario-com-borda #email-caixa {
         display: block;
         width: 100%;
         margin: 15px 0;
