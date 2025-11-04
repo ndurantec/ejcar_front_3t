@@ -135,17 +135,17 @@ function validarFormulario() {
     // Captura dos valores do formulário
     let nome = document.getElementById("nome").value;
     let telefone = document.getElementById("telefone").value;
-    let endereco = document.getElementById("endereco").value;
-    let cep = document.getElementById("cep").value;
     let cpf = document.getElementById("cpf").value;
+    let cep = document.getElementById("cep").value;
+    let endereco = document.getElementById("endereco").value;
 
     let ok = true;
 
     if (!nome) { mostrarErro('erro-nome', 'Verifique se possui nome para continuar.'); ok = false; }
     if (!telefone) { mostrarErro('erro-telefone', 'Verifique se possui telefone para continuar.'); ok = false; }
-    if (!endereco) { mostrarErro('erro-endereco', 'Verifique se possui endereço para continuar.'); ok = false; }
-    if (!cep) { mostrarErro('erro-cep', 'Verifique se possui cep para continuar.'); ok = false; }
     if (!cpf) { mostrarErro('erro-cpf', 'Verifique se possui cpf para continuar.'); ok = false; }
+    if (!cep) { mostrarErro('erro-cep', 'Verifique se possui cep para continuar.'); ok = false; }
+    if (!endereco) { mostrarErro('erro-endereco', 'Verifique se possui endereço para continuar.'); ok = false; }
     
     return ok;
 }
@@ -156,10 +156,14 @@ function coletarDados() {
     return {
         nome: document.getElementById("nome").value.trim(),
         telefone: document.getElementById("telefone").value.trim(),
-        endereco: document.getElementById("endereco").value.trim(),
-        cep: document.getElementById("cep").value.trim(),
         cpf: document.getElementById("cpf").value.trim(),
-        idUsuario: localStorage.getItem("id_usuario")
+        cep: document.getElementById("cep").value.trim(),
+        endereco: document.getElementById("endereco").value.trim(),
+        idUsuario: localStorage.getItem("id_usuario"),
+        veiculoDto: {
+            id: localStorage.getItem("id_veiculo") // ou pegue de um campo <input hidden>
+
+        }
     };
 }
 
@@ -171,7 +175,12 @@ function concluirResponsavel() {
     const dados = coletarDados();
     //console.log("Enviando criar conta:", dados);
 
-    console.log(JSON.stringify(dados));
+    if (!dados.idUsuario || !dados.veiculoDto.id) {
+        alert("Erro: id do usuário ou veículo não encontrado. Cadastre ou selecione primeiro.");
+        return;
+    }
+
+    console.log(JSON.stringify(dados));//enviando dados
 
     var headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -191,9 +200,9 @@ function concluirResponsavel() {
 
     })
     .then(async response => {
-      let data = await response.json();
+      let data = await response.data();
 
-      console.log(data);
+      console.log(data);//resposta do servidor
       
 
       if (!response.ok) {
@@ -221,14 +230,12 @@ function concluirResponsavel() {
                     mostrarErro(idElementoErro, mensagem);
                                         
                 } 
-
-
-
             }
 
           
         } else {
-          mostrarMensagem("⚠️ Erro desconhecido", "erro");
+         // mostrarMensagem("⚠️ Erro desconhecido", "erro");
+         //alert("⚠️ " + text);
         }
         throw new Error("Erro de validação");
       }
@@ -239,7 +246,10 @@ function concluirResponsavel() {
       if (data.id) {
         localStorage.setItem("id_responsavel", data.id);
         // mostrarMensagem(data.message || "✅ Responsavel cadastrado com sucesso!", "sucesso");
+        alert("Responsável cadastrado com sucesso!")
+      } else {
+        alert("Cadastro concluído, mas o ID não foi retornado.")
       }
     })
-    .catch(error => console.error(error));
+    .catch(error => console.error("Erro ao cadastrar:", error));
 }
