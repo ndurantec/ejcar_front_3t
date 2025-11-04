@@ -94,6 +94,7 @@ body {
     }
 }
 
+
 .linha-topo {
   display: flex;
   gap: 10px;
@@ -127,4 +128,19 @@ body {
 
 .btn-remove:hover {
   background-color: #c9302c;
+}
+
+
+
+
+/* força absoluta — isso vai sobrepor qualquer coisa */
+select#produto,
+select#produto option {
+  color: black !important;
+  background-color: white !important;
+}
+
+select#produto option:checked {
+  background-color: #007bff !important;
+  color: white !important;
 }

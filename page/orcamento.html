@@ -27,8 +27,10 @@
       <div id="orcamento-linhas">
         <!-- Linha base de Produto e Mão de Obra -->
         <div class="linha-orcamento">
-          <input type="text" class="form-control produto" placeholder="Produto">
-          <input type="number" class="form-control mao-obra" placeholder="Mão de obra (R$)" min="0" step="0.01">
+          <select class="form-control" id="produto" name="produto">
+            <option value="">Selecione o Produto</option>
+          </select>
+          <input type="number" class="form-control mao-obra" id="maoObra" placeholder="Mão de obra (R$)" min="0" step="0.01">
           <button type="button" class="btn btn-add" onclick="adicionarLinha()">
             <i class="fas fa-plus"></i>
           </button>
@@ -41,20 +43,16 @@
         <input type="text" id="totalMaoObra" class="form-control" readonly value="0.00">
       </div>
 
-      <div class="acoes">
-        <button type="button" class="btn btn-submit" onclick="finalizarOrcamento()">
-          <i class="fas fa-check-circle"></i> Finalizar Orçamento
+        <div class="top">
+        <button type="button" class="btn btn-submit" onclick="finalizar()">
+            Finalizar Orçamento
         </button>
-        <button type="button" class="btn btn-submit" onclick="tabelaOrcamento()">
-          <i class="fas fa-table"></i> Tabela Orçamento
-        </button>
-        <button type="button" class="btn btn-submit" onclick="atualizarOrcamento()">
-          <i class="fas fa-sync-alt"></i> Atualizar Orçamento
-        </button>
-        <button type="button" class="btn btn-submit" onclick="deletarOrcamento()">
-          <i class="fas fa-trash"></i> Deletar Orçamento
-        </button>
-      </div>
+
+        <button type="button" class="btn btn-submit" onclick="cadastrarorcamento()">Cadastrar Orcamentos</button>
+        <button type="button" class="btn btn-submit" onclick="consultarorcamento()">Consultar Orcamentos</button>
+        <button type="button" class="btn btn-submit" onclick="deletar()">Deletar</button>
+        <button type="button" class="btn btn-submit" onclick="atualizar()">Atualizar</button>
+        </div>
     </form>
   </div>
 </body>
