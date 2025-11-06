@@ -125,7 +125,6 @@ function salvar() {
 //     });
 // }
 
-<<<<<<< HEAD
 function concluir() {
     // Código da função aqui...
     // console.log("Conta concluída!");
@@ -143,9 +142,6 @@ function concluir() {
 //     });
 // }
 
-function deletar() {
-    fetch('http://127.0.0.1:8080/responsaveis', {
-=======
 // function salvar() {
 //     fetch('http://127.0.0.1:8080/responsaveis', {
        
@@ -160,7 +156,7 @@ function deletar() {
 
 // function deletar() {
 //     fetch('http://127.0.0.1:8080/responsaveis', {
->>>>>>> 7c26f711ab82c02ab7fd40b0184d16ef9b129da8
+
        
 //     }).then(response => {
            
