@@ -94,10 +94,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
 }); 
 
-const botaoConcluir = document.getElementById('botaoconcluir');
-    function mostrarErro(idElemento, mensagem) {
-    document.getElementById(idElemento).textContent = mensagem;
-}
+// const botaoConcluir = document.getElementById('botaoconcluir');
+//     function mostrarErro(idElemento, mensagem) {
+//     document.getElementById(idElemento).textContent = mensagem;
+// }
 
 
 
@@ -108,17 +108,18 @@ function limparErros() {
 }
 
 
+
 function validarCheckbox() {
     limparErros();
 
     let step = document.getElementById("boxstep").checked;
     let macaco = document.getElementById("boxmacaco").checked;
     let chave = document.getElementById("boxchave").checked;
-    let descricao = document.getElementById("descricao").value;
-    let proprietario = document.getElementById("proprietario").value;
-    let marcaModelo = document.getElementById("marcaModelo").value;
-    let placa = document.getElementById("placa").value;
-    let termo = document.getElementById("termoAceite").checked;
+    let descricao = document.getElementById("boxdescricao").value;
+    let proprietario = document.getElementById("boxproprietario").value;
+    let marcaModelo = document.getElementById("bxmarcaModelo").value;
+    let placa = document.getElementById("boxplaca").value;
+    let termo = document.getElementById("boxtermoAceite").checked;
 
     console.log("Step:", step);
     console.log("Macaco:", macaco);
@@ -170,12 +171,12 @@ function validarCheckbox() {
 botaoConcluir.addEventListener('click', validarCheckbox);
 
 
+
 function concluir() {
 
     if (!validarFormulario()) return;
 
     const dados = coletarDados();
-    //console.log("Enviando criar conta:", dados);
 
     console.log(JSON.stringify(dados));
 
@@ -191,19 +192,7 @@ function concluir() {
         cache: 'no-cache',
 
 
-        body: JSON.stringify ({
-        fluxo: "saida",
-        step: "n",
-        chaveDeRoda: "s",
-        macaco: "n",
-        outro: "outro",
-        termo: "true",
-        equipamentos: "S",
-        idUsuario : 1,
-        servico : {
-            id : 1
-        }
-        }),
+        body: JSON.stringify (dados),
 
     
         headers: headers
@@ -264,15 +253,6 @@ function concluir() {
 
 
 function validarFormulario() {
-    //limparErros();
-    // Captura dos valores do formulário
-    // let nome = document.getElementById("nome").value;
-    // let cpf = document.getElementById("cpf").value;
-    // let telefone = document.getElementById("telefone").value;
-    // let email = document.getElementById("email").value;
-    // let senha = document.getElementById("senha").value;
-    // let confirme = document.getElementById("confirme").value;
-
 
     let ok = true;
 
@@ -280,7 +260,7 @@ function validarFormulario() {
     if (!macaco) { mostrarErro('erro-macaco', 'Verifique se possui macaco para continuar.'); ok = false; }
     if (!chaveDeRoda) { mostrarErro('erro-chaveDeRoda', 'Verifique se possui chaveDeRoda para continuar.'); ok = false; }
     if (!outrosItens) { mostrarErro('erro-outrosItens', 'Verifique se possui outrosItens para continuar.'); ok = false; }
-
+    if (!termo) { mostrarErro('erro-termo', 'Verifique se aceitou o termo para continuar.'); ok = false; }
     return ok;
 }
 
@@ -290,22 +270,21 @@ function coletarDados() {
   
     return {
         step: document.getElementById("boxstep").checked,
-        // cpf: document.getElementById("cpf").value.trim(), CONTINUAR ALTERANDO
         chaveDeRoda: document.getElementById("boxchaveDeRoda").value.trim(),
+        macaco: document.getElementById("boxmacaco").value.trim(),
         outrosItens: document.getElementById("boxoutrosItens").value.trim(),
-        // user: document.getElementById("usuario").value.trim(),
-        // imagemBase64:  document.getElementById('signaturePad').toDataURL(),// converte assinatura para Base64
+        termo: document.getElementById("boxtermo").value.trim(),
+        imagemBase64:  document.getElementById('signaturePad').toDataURL(),// converte assinatura para Base64
 
     };
 }
 
 
+
 function salvar() {
 limparErros();
-
-   
-
-    console.log(     coletarDados()   );
+  
+    console.log( coletarDados() );
 
 
     fetch('http://localhost:8080/vistoria/insert', {

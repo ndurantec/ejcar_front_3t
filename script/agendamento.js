@@ -178,9 +178,9 @@ function concluirAgendamento() {
 
     })
     .then(async response => {
-      let text = await response.text();
+      let data = await response.data();
 
-      console.log(text);
+      console.log(data);
       
 
       if (!response.ok) {
@@ -208,9 +208,6 @@ function concluirAgendamento() {
                     mostrarErro(idElementoErro, mensagem);
                                         
                 } 
-
-
-
             }
 
           
@@ -225,7 +222,7 @@ function concluirAgendamento() {
     .then(data => {
       if (data.id) {
         localStorage.setItem("id_agenda", data.id);
-         mostrarMensagem(data.message || "✅ Agendamento feito com sucesso!", "sucesso");
+         //mostrarMensagem(data.message || "✅ Agendamento feito com sucesso!", "sucesso");
       }
     })
     .catch(error => console.error(error));

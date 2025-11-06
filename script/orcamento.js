@@ -151,6 +151,7 @@ function adicionarLinha() {
     }
     
 
+    //CRUD
 
     function validarOrcamento() {
       //limparErros();
@@ -187,28 +188,26 @@ function adicionarLinha() {
 
       if (!validarOrcamento()) return;
   
-      const dados = coletarDados();
-      //console.log("Enviando criar conta:", dados);
+      const dados = {
+        idVeiculo: document.getElementById("veiculo").value,
+        idProduto: document.getElementById("produto").value,
+        codigo: document.getElementById("codigoOrcamento").value,
+        maoDeObra: document.getElementById("maoObra").value
+      };
   
       console.log(JSON.stringify(dados));
+      console.log("JSON enviado ao backend:", JSON.stringify(dados, null, 2));
   
       var headers = new Headers();
       headers.append("Content-Type", "application/json");
       headers.append("Access-Control-Allow-Origin", "*");
   
       fetch('http://localhost:8080/orcamento/cadorca', {
-          
-          method: 'POST',
-          mode: 'cors',
-          cache: 'no-cache',
-          body: JSON.stringify(
-              dados
-          ),
-      
-          headers: headers
-  
-  
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
       })
+
       .then(async response => {
         let data = await response.json();
   
