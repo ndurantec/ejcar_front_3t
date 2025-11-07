@@ -3,6 +3,7 @@ async function carregarVeiculos(modeloSelecionado = '') {
           const response = await fetch('http://localhost:8080/veiculo/listarVeiculo');
           if (!response.ok) throw new Error('Erro ao buscar veículos');
           const veiculos = await response.json();
+          console.log(veiculos); 
       
           const select = document.getElementById('veiculo');
           select.innerHTML = '<option value="">Selecione o Veículo</option>'; // limpa antes
@@ -26,6 +27,36 @@ async function carregarVeiculos(modeloSelecionado = '') {
       }
       // Carrega os veículos assim que a página abrir
       document.addEventListener('DOMContentLoaded', carregarVeiculos);
+
+async function carregarProduto(modeloSelecionado = '') {
+        try {
+          const response = await fetch('http://localhost:8080/produto/listarProduto');
+          if (!response.ok) throw new Error('Erro ao buscar produtos');
+          const produtos = await response.json();
+          console.log(produtos); 
+      
+          const select = document.getElementById('produto');
+          select.innerHTML = '<option value="">Selecione o Produto</option>'; // limpa antes
+      
+          produtos.forEach(v => {
+            const option = document.createElement('option');
+            option.value = v.id;
+            option.textContent = v.descricao; // ou v.modelo, se preferir exibir o modelo
+      
+            // 🔹 Se o modelo bater, marca como selecionado
+            if (v.descricao === modeloSelecionado) {
+              option.selected = true;
+            }
+      
+            select.appendChild(option);
+          });
+        } catch (err) {
+          console.error(err);
+          alert('Erro ao carregar produtos');
+        }
+      }
+      // Carrega os veículos assim que a página abrir
+      document.addEventListener('DOMContentLoaded', carregarProduto);
 
       // Adiciona uma nova linha com botão de remover
 function adicionarLinha() {
@@ -119,49 +150,114 @@ function adicionarLinha() {
       return el.value;
     }
     
-    async function finalizarOrcamento() {
-      const veiculoId = getValueOrWarn('#selectVeiculo', 'Veículo');
-      const codigoOrcamento = getValueOrWarn('#codigoOrcamento', 'Código do Orçamento');
-      const produto = getValueOrWarn('#produto', 'Produto');
-      const maoDeObraStr = getValueOrWarn('#maoDeObra', 'Mão de obra');
+
+    //CRUD
+
+    function validarOrcamento() {
+      //limparErros();
+  
+      // Captura dos valores do formulário
+      let veiculo = document.getElementById("veiculo").value;
+      let codigoOrcamento = document.getElementById("codigoOrcamento").value;
+      let produto = document.getElementById("produto").value;
+      let maoObra = document.getElementById("maoObra").value;
+  
+  
+      let ok = true;
+  
+      if (!veiculo) { mostrarErro('erro-veiculo', 'Verifique se possui veiculo para continuar.'); ok = false; }
+      if (!codigoOrcamento) { mostrarErro('erro-codigoOrcamento', 'Verifique se possui codigo de Orcamento para continuar.'); ok = false; }
+      if (!produto) { mostrarErro('erro-produto', 'Verifique se possui produto para continuar.'); ok = false; }
+      if (!maoObra) { mostrarErro('erro-maoObra', 'Verifique se possui Mao de Obra para continuar.'); ok = false; }
+  
+      return ok;
+  }
+  
+  function coletarDados() {
+      const canvas = document.getElementById('signaturePad');
     
-      // Se algum campo não existir ou estiver vazio, sai da função
-      if (!veiculoId || !codigoOrcamento || !produto) {
-        alert("Preencha todos os campos obrigatórios!");
-        return;
-      }
-    
-      const maoDeObra = parseFloat(maoDeObraStr) || 0;
-    
-      const orcamentoData = {
-        maoDeObra: maoDeObra,
-        produto: produto,
-        codigoOrcamento: codigoOrcamento,
-        idUsuario: 1,
-        veiculoDto: {
-          id: parseInt(veiculoId)
-        }
+      return {
+        veiculo: document.getElementById("veiculo").value.trim(),
+        codigoOrcamento: document.getElementById("codigoOrcamento").value.trim(),
+        produto: document.getElementById("produto").value.trim(),
+        maoObra: document.getElementById("maoObra").value.trim(),
       };
-    
-      try {
-        const response = await fetch("http://localhost:8080/orcamento/cadorca", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(orcamentoData)
-        });
-    
-        if (response.ok) {
-          const result = await response.json();
-          console.log(" Orçamento salvo:", result);
-          alert("Orçamento finalizado com sucesso!");
-        } else {
-          const error = await response.json();
-          console.error(" Erro ao salvar:", error);
-          alert("Erro ao finalizar orçamento: " + (error.message || "Verifique os dados."));
+  }
+
+    function finalizarOrcamento() {
+
+      if (!validarOrcamento()) return;
+  
+      const dados = {
+        idVeiculo: document.getElementById("veiculo").value,
+        idProduto: document.getElementById("produto").value,
+        codigo: document.getElementById("codigoOrcamento").value,
+        maoDeObra: document.getElementById("maoObra").value
+      };
+  
+      console.log(JSON.stringify(dados));
+      console.log("JSON enviado ao backend:", JSON.stringify(dados, null, 2));
+  
+      var headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append("Access-Control-Allow-Origin", "*");
+  
+      fetch('http://localhost:8080/orcamento/cadorca', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      })
+
+      .then(async response => {
+        let data = await response.json();
+  
+        console.log(data);
+        
+  
+        if (!response.ok) {
+          // Caso sejam erros de validação no DTO
+          if (typeof data === "object") {
+            let mensagens = Object.values(data).join("<br>");
+  
+            console.log("Entrou dento do if data ==== object");
+            console.log("----------------------------------------------");
+            console.log(mensagens);
+            console.log("----------------------------------------------");
+  
+              let mensagensGlobais = []; // Para erros que não mapeiam para um campo específico
+  
+              for (const [campo, mensagem] of Object.entries(data)) {
+                  // Mapeia o nome do campo do backend ('cpf', 'email', etc.) para o ID do elemento no HTML
+                  const idElementoErro = "erro-" + campo; // Ex: 'cpf_error_message'
+  
+                  console.log("========================================================");
+                  console.log(idElementoErro);
+                  console.log("========================================================");
+                  // Tenta exibir o erro no elemento específico
+                  if (document.getElementById(idElementoErro)) {
+                      //CHAMANDO A SUA FUNÇÃO mostrarErro(idElemento, mensagem)
+                      mostrarErro(idElementoErro, mensagem);
+                                          
+                  } 
+  
+  
+  
+              }
+  
+            
+          } else {
+            mostrarMensagem("⚠️ Erro desconhecido", "erro");
+          }
+          throw new Error("Erro de validação");
         }
-      } catch (error) {
-        console.error(" Erro de conexão:", error);
-        alert("Erro de conexão com o servidor.");
-      }
-    }
-    
+  
+        return data;
+      })
+      .then(data => {
+        if (data.id) {
+          localStorage.setItem("id_orcamento", data.id);
+          // mostrarMensagem(data.message || "✅ Professor cadastrado com sucesso!", "sucesso");
+        }
+      })
+      .catch(error => console.error(error));
+  }

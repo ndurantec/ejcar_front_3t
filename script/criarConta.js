@@ -122,8 +122,12 @@ function toggleSenha(botaoId, inputId) {
 //     });
 // }
 
+<<<<<<< HEAD
 
 // function concluir() {
+=======
+function concluir() {
+>>>>>>> b4e7e2f96116a5255be5708d4dcb51a891914b3a
     // Código da função aqui...
     // console.log("Conta concluída!");
 
@@ -139,7 +143,10 @@ function toggleSenha(botaoId, inputId) {
 //     });
 // }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> b4e7e2f96116a5255be5708d4dcb51a891914b3a
 // function salvar() {
 //     fetch('http://127.0.0.1:8080/responsaveis', {
        
